@@ -1,0 +1,116 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-bold mb-0">Add New Product</h3>
+          <a routerLink="/products" class="btn btn-outline-secondary btn-sm">Cancel</a>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger mb-4">
+          {{ errorMessage }}
+        </div>
+
+        <form (ngSubmit)="onSubmit()" #productForm="ngForm" novalidate>
+          <!-- Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold">Product Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-control"
+              placeholder="e.g. Wireless Noise-Canceling Headphones"
+              [(ngModel)]="title"
+              required />
+          </div>
+
+          <!-- Price & Category Row -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="price" class="form-label fw-semibold">Price (USD) *</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                class="form-control"
+                placeholder="e.g. 99.99"
+                min="0.01"
+                step="0.01"
+                [(ngModel)]="price"
+                required />
+              <div class="form-text text-danger" *ngIf="price !== null && price <= 0">
+                Price must be greater than 0.
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="category" class="form-label fw-semibold">Category *</label>
+              <select
+                id="category"
+                name="category"
+                class="form-select"
+                [(ngModel)]="category"
+                required>
+                <option value="" disabled>Select category...</option>
+                <option value="electronics">Electronics</option>
+                <option value="jewelery">Jewelery</option>
+                <option value="men's clothing">Men's Clothing</option>
+                <option value="women's clothing">Women's Clothing</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Image URL & Stock Row -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-8">
+              <label for="image" class="form-label fw-semibold">Image URL *</label>
+              <input
+                type="url"
+                id="image"
+                name="image"
+                class="form-control"
+                placeholder="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+                [(ngModel)]="image"
+                required />
+            </div>
+
+            <div class="col-md-4">
+              <label for="stockCount" class="form-label fw-semibold">Stock Count</label>
+              <input
+                type="number"
+                id="stockCount"
+                name="stockCount"
+                class="form-control"
+                min="0"
+                [(ngModel)]="stockCount" />
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-4">
+            <label for="description" class="form-label fw-semibold">Description *</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              class="form-control"
+              placeholder="Write full product description..."
+              [(ngModel)]="description"
+              required></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg"
+              [disabled]="!isFormValid() || isSubmitting">
+              {{ isSubmitting ? 'Saving Product...' : 'Save Product' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
